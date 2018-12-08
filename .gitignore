@@ -1,0 +1,18 @@
+# Ignore everything.  We'll whitelist what we want to pull in.
+/*
+/*/
+
+# Git meta files
+!.gitignore
+!.gitattributes
+!README.md
+
+# Whitelisted directories/files
+!/ProjectSettings/
+!/Assets/                # Add Assets folder, but ...
+/Assets/*                # Remove everything under Assets again.
+!/Assets/_core/          # Now add back our core game folders.
+!/Assets/_modules/
+
+# Any modules kept in their own git repo.
+Assets/_modules/fps/
