@@ -17,9 +17,6 @@ public class ControlFire : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-
-        //HEAD
-
         int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
 
         Rigidbody rb = other.GetComponent<Rigidbody>();
