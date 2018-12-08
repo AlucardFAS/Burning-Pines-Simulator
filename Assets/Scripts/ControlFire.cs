@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//[RequireComponent(typeOf(ParticleSystem))]
-
-public class ControlFire : MonoBehaviour {
 
     public ParticleSystem part;
     public Vector3 positionColl;
@@ -41,6 +38,5 @@ public class ControlFire : MonoBehaviour {
         var a = newFire.main;
         a.maxParticles = 1;
         NewFireParticle.GetComponent<ParticleSystem>().Play();
-
 	}
 }
