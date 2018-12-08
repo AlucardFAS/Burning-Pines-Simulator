@@ -22,14 +22,24 @@ public class ControlFire : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         int i = 0;
 
+        var r = new System.Random();
+        var b = r.Next(1, 10);
         while (i < numCollisionEvents)
         {
-            if (rb)
+            if (rb && collisionEvents[i].colliderComponent.CompareTag("Tree") && b > 8)
             {
                 Vector3 pos = collisionEvents[i].intersection;
+
                 Burn(pos);
             }
             i++;
+        }
+
+        if(b > 8)
+        {
+            part.Stop();
+            part.Clear();
+            DestroyImmediate(part);
         }
     }
 
@@ -37,8 +47,8 @@ public class ControlFire : MonoBehaviour
     {
         GameObject NewFireParticle = Instantiate(part.gameObject, positionColl, Quaternion.identity);
         var newFire = NewFireParticle.GetComponent<ParticleSystem>();
-        var a = newFire.main;
-        a.maxParticles = 1;
+        //var a = newFire.main;
+        //a.maxParticles = 1;
         NewFireParticle.GetComponent<ParticleSystem>().Play();
     }
 }
