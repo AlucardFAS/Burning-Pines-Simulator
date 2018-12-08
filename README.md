@@ -1,17 +1,22 @@
-# V¡RIAVEIS ESTOC¡STICAS
+# V√ÅRIAVEIS ESTOC√ÅSTICAS
 - Vento e Fogo
 
 # FALTA
-- Vento Estoc·stico(DireÁ„o e ForÁa)
-- Algum objeto para teste do fogo(¡rvore ou grama)
+- Vento Estoc√°stico(Dire√ß√£o e For√ßa)
+- Algum objeto para teste do fogo(√Årvore ou grama) 
 - iniciar emitter em local clicado no objeto
 - Tirar fogo do looping
-- Colis„o gerar novo emitter
-- ¡rea queimada ficar escura
+- Colis√£o gerar novo emitter
+- √Årea queimada ficar escura
 
-## VARI¡VEIS
--- Guardar o tempo total com fogo
--- Guardar quantidade de emitters(foco)
--- Velocidade m·xima e mÌnima do vento
--- DireÁ„o do vento(X,Y,Z)
--- Altura m·xima do fogo
+## VARI√ÅVEIS
+- Guardar o tempo total com fogo
+- Guardar quantidade de emitters(foco)
+- Velocidade m√°xima e m√≠nima do vento
+- Dire√ß√£o do vento(X,Y,Z)
+- Altura m√°xima do fogo
+
+## ARTIGOS REFER√äNCIAS
+* <a href="https://periodicos.ufsm.br/cienciaflorestal/article/view/27728/15735">COMPORTAMENTO DO FOGO EM DIFERENTES PER√çODOS E CONFIGURA√á√ïES DE UMA PAISAGEM NO NORDESTE DE PORTUGAL</a><br>
+* <a href="http://www.scielo.br/pdf/floram/v24/2179-8087-floram-2179-8087025615.pdf">Mapeamento do Risco de Inc√™ndios Florestais Utilizando T√©cnicas de Geoprocessamento</a><br>
+* <a href="https://www2.codevasf.gov.br/programas_acoes/programa-florestal-1/acoes-florestais-na-bacia-do-parnaiba/produto11_apostila_incendios.pdf">T√âCNICAS DE PREVEN√á√ÉO E COMBATE √Ä INC√äNDIOS FLORESTAIS</a><br>
