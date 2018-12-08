@@ -39,7 +39,7 @@ public class ControlFire : MonoBehaviour
         {
             part.Stop();
             part.Clear();
-            DestroyImmediate(part);
+            Destroy(part);
         }
     }
 
