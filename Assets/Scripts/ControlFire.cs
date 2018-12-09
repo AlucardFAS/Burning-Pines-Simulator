@@ -5,48 +5,53 @@ using UnityEngine;
 public class ControlFire : MonoBehaviour
 {
 
-    public ParticleSystem part;
+    public MeshFilter thisTree;
     public Vector3 positionColl;
     public List<ParticleCollisionEvent> collisionEvents;
 
     void Start()
     {
-        part = GetComponent<ParticleSystem>();
+        thisTree = GetComponent<MeshFilter>();
         collisionEvents = new List<ParticleCollisionEvent>();
     }
 
     void OnParticleCollision(GameObject other)
     {
-        int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
+        ParticleSystem ps = other.GetComponent<ParticleSystem>();
+        int numCollisionEvents = ps.GetCollisionEvents(thisTree.gameObject, collisionEvents);
 
-        Rigidbody rb = other.GetComponent<Rigidbody>();
         int i = 0;
 
         var r = new System.Random();
         var b = r.Next(1, 10);
+        bool shouldDestroy = false;
+
+        Debug.Log("Collisions " + numCollisionEvents);
+
         while (i < numCollisionEvents)
         {
-            if (rb && collisionEvents[i].colliderComponent.CompareTag("Tree") && b > 8)
+            if (ps && collisionEvents[i].colliderComponent.CompareTag("Tree") && b > 8)
             {
                 Vector3 pos = collisionEvents[i].intersection;
 
-                Burn(pos);
+                Burn(pos, ps.transform.parent.gameObject);
+                shouldDestroy = true;
             }
             i++;
         }
-
-        if(b > 8)
+        
+        if(shouldDestroy)
         {
-            part.Stop();
-            part.Clear();
-            Destroy(part);
+            ps.Stop();
+            ps.Clear();
+            Destroy(ps);
         }
     }
 
-    void Burn(Vector3 positionColl)
+    void Burn(Vector3 positionColl, GameObject fire)
     {
-        GameObject NewFireParticle = Instantiate(part.gameObject, positionColl, Quaternion.identity);
-        var newFire = NewFireParticle.GetComponent<ParticleSystem>();
+        GameObject NewFireParticle = Instantiate(fire, positionColl, Quaternion.identity);
+        //var newFire = NewFireParticle.GetComponent<ParticleSystem>();
         //var a = newFire.main;
         //a.maxParticles = 1;
         NewFireParticle.GetComponent<ParticleSystem>().Play();
