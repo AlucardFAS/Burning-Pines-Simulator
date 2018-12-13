@@ -20,9 +20,9 @@ public class ParticleControl : MonoBehaviour {
 
         windInFire = windZone.windTurbulence;
 
-        while(windInFire >= 2)
+        while(windInFire >= 1.5f)
         {
-            windInFire /= 2;
+            windInFire /= 1.5f;
         }
 
         fo.x = fo.y = -windInFire;
