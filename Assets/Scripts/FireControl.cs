@@ -68,7 +68,7 @@ public class FireControl : MonoBehaviour
 
     void Burn(Vector3 positionColl, GameObject fire)
     {
-        var r = new System.Random();
+        //var r = new System.Random();
         //var rotation = Quaternion.Euler(new Vector3(0, r.Next(70,110), 0));
         GameObject NewFireParticle = Instantiate(fire, positionColl, Quaternion.identity);
         //var newFire = NewFireParticle.GetComponent<ParticleSystem>();

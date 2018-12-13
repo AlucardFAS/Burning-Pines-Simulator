@@ -8,12 +8,10 @@ public class WindControl : MonoBehaviour {
     public Vector3 rotationWind;
     public bool windOscillate;
     public WindZone windZone;
-    public ParticleSystem fire;
 
     // Use this for initialization
     void Start () {
         windZone = GetComponent<WindZone>();
-        fire = GetComponent<ParticleSystem>();
 
         windZone.windMain = 1;
         windZone.windTurbulence = 1;
@@ -40,9 +38,6 @@ public class WindControl : MonoBehaviour {
             windZone.windTurbulence = turbulation;
             windZone.windPulseFrequency = pulseFrequency;
             windZone.windPulseMagnitude = pulseMagnitude;
-            
         }
-
-
     }
 }

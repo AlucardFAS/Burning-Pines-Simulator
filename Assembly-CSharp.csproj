@@ -53,8 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CameraControl.cs" />
      <Compile Include="Assets\Scripts\FireControl.cs" />
      <Compile Include="Assets\Scripts\InitFire.cs" />
+     <Compile Include="Assets\Scripts\ParticleControl.cs" />
      <Compile Include="Assets\Scripts\WindControl.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/dev/Projeto-Integrador-VI-Simulador-de-fogo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
