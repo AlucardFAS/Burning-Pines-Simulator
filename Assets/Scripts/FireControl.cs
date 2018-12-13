@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-public class ControlFire : MonoBehaviour
+
+public class FireControl : MonoBehaviour
 {
 
     public MeshFilter thisTree;
     public Vector3 positionColl;
+    public int colisions;
     public List<ParticleCollisionEvent> collisionEvents;
 
     void Start()
