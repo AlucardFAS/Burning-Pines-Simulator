@@ -5,26 +5,24 @@ public class ParticleControl : MonoBehaviour {
     public ParticleSystem fire;
     public WindZone windZone;
     public float windInFire;
-
 	// Use this for initialization
 	void Start () {
         fire = GetComponent<ParticleSystem>();
-        //windZone = GetComponent<WindZone>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        var fo = fire.forceOverLifetime;
-        fo.enabled = true;
+        //var fo = fire.forceOverLifetime;
+        //fo.enabled = true;
 
-        windInFire = windZone.windTurbulence;
+        //windInFire = windZone.windTurbulence;
 
-        while(windInFire >= 1.5f)
-        {
-            windInFire /= 1.5f;
-        }
+        //while(windInFire >= 1.5f)
+        //{
+        //    windInFire /= 1.5f;
+        //}
 
-        fo.x = fo.y = -windInFire;
+        //fo.x = fo.y = -windInFire;
     }
 }

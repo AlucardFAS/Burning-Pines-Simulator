@@ -10,16 +10,16 @@ public class FireControl : MonoBehaviour
     public List<ParticleCollisionEvent> collisionEvents;
     public int colisionNumber;
     public bool burningTree;
+    public bool burnedTree;
     public bool emittingParticles;
     public ParticleSystem ParticleSystemEffectBase;
     public ParticleSystem ParticleSystemEmitterBase;
     public ParticleSystem ThisFireEffect;
     public ParticleSystem ThisFireEmission;
     public List<TreeNode> Vertices;
-    public Color BurnedTreeColor = new Color(0, 0, 0, 1);
     public Color NormalTreeColor = new Color(1, 1, 1, 1);
     public float BurnedPercentage;
-    private float waitTime = 0.1f;
+    private float waitTime = 0.8f;
     private float timer = 0.0f;
     
 
@@ -38,7 +38,7 @@ public class FireControl : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        if (burningTree)
+        if (burningTree || burnedTree)
             return;
         ParticleSystem ps = other.GetComponent<ParticleSystem>();
         int numCollisionEvents = ps.GetCollisionEvents(thisTree.gameObject, collisionEvents);
@@ -47,7 +47,6 @@ public class FireControl : MonoBehaviour
 
         var r = new System.Random();
         var b = r.Next(1, 100);
-        bool shouldDestroy = false;
         int acceptColision = 0;
 
         if (colisionNumber < 10)
@@ -71,21 +70,20 @@ public class FireControl : MonoBehaviour
             if (ps && collisionEvents[i].colliderComponent.CompareTag("Tree") && b > 85 && (colisionNumber % acceptColision) < 15)
             {
                 Vector3 pos = collisionEvents[i].intersection;
-                var firstFire = FindNearstVector3(pos);
-                firstFire.isBurning = true;    
-                this.ThisFireEffect = Burn(thisTree.transform.position, ParticleSystemEffectBase.gameObject);
-                burningTree = true;
-                thisTree.GetComponent<MeshCollider>().enabled = false;
+                bool foundResult = false;
+                var firstFire = FindNearstVector3(pos, out foundResult);
+                if (foundResult)
+                {
+                    firstFire.isBurning = true;
+                    this.ThisFireEffect = Burn(thisTree.transform.position, ParticleSystemEffectBase.gameObject);
+                    burningTree = true;
+                    var position = ThisFireEffect.shape.position;
+                    position.z = 6;
+                    thisTree.GetComponent<MeshCollider>().enabled = false;
+                }
             }
             i++;
             numCollisionEvents = 0;
-        }
-
-        if (shouldDestroy)
-        {
-            ps.Stop();
-            ps.Clear();
-            Destroy(ps);
         }
     }
 
@@ -101,7 +99,8 @@ public class FireControl : MonoBehaviour
 
     private void Update()
     {
-        if (!burningTree || Vertices.Count(v => v.isBurning && v.burnedPercetage < 1) == 0)
+
+        if (burnedTree || !burningTree)
             return;
 
         timer += Time.deltaTime;
@@ -117,49 +116,94 @@ public class FireControl : MonoBehaviour
                         return;
                     var v = ver[i];
                     v.burnedPercetage += 0.5f;
-                    var pos = FindNearstVector3(v.vertice);
+                    
 
-                    var newColor = Color.Lerp(NormalTreeColor, BurnedTreeColor, v.burnedPercetage);
-                    tempColors[pos.index] = newColor;
-                    Debug.Log("Burned " + v.burnedPercetage + "  Color  " + newColor.ToString());
+                    var newColor = Color.Lerp(NormalTreeColor, Color.black, v.burnedPercetage);
+                    tempColors[v.index] = newColor;
+                    bool foundResult = false;
+                    var pos = FindNearstVector3(v.vertice, out foundResult);
 
-                    pos.isBurning = true;
-
-                    var shape = this.ThisFireEffect.shape;
-                    var main = this.ThisFireEffect.main;
-
-                    if (shape.radius > 0.4 || shape.length > 5)
-                    {
-                        shape.radius = 1f;
-                        shape.length = 5f;
-                        main.maxParticles = 120;
-                    }
-                    else
-                    {
-                        shape.radius += 0.05f;
-                        shape.length += 0.2f;
-                        main.maxParticles += 5;
-                    }
+                    if (foundResult)
+                        pos.isBurning = true;
 
                 }
-                thisTree.mesh.colors = tempColors;
-                this.BurnedPercentage = (float)Vertices.Count(v => v.isBurning) / (float)Vertices.Count();
 
+                var shape = this.ThisFireEffect.shape;
+                var main = this.ThisFireEffect.main;
+                var rateOverTime = this.ThisFireEffect.emission.rateOverTime;
+
+                if (shape.radius > 0.3 || shape.length > 5)
+                {
+                    shape.radius = 0.3f;
+                    shape.length = 5f;
+                    main.maxParticles = 60;
+                    rateOverTime.constant = 60;
+                }
+                else
+                {
+                    shape.radius += 0.03f;
+                    shape.length += 0.2f;
+                    main.maxParticles += 2;
+                    rateOverTime.constant += 1;
+                }
+
+
+                thisTree.mesh.colors = tempColors;
+                //var a = (float)Vertices.Count(v => v.isBurning && v.burnedPercetage == 1);
+                //var b = Vertices.Where(v => v.isBurning && v.burnedPercetage == 1).ToList();
+                //var c = Vertices.Except<TreeNode>(b).ToList();
+                this.BurnedPercentage = (float)Vertices.Count(v => v.isBurning && v.burnedPercetage == 1) / (float)Vertices.Count();
+
+                thisTree.transform.localScale = new Vector3(1f - (0.6f * BurnedPercentage), 1, 1f - (0.6f * BurnedPercentage));
             }
             if (!emittingParticles && this.BurnedPercentage > 0.6)
             {
                 this.ThisFireEmission = Burn(thisTree.transform.position, ParticleSystemEmitterBase.gameObject);
                 emittingParticles = true;
             }
+            if (this.BurnedPercentage >= 0.98f)
+            {
+                burnedTree = true;
+                CarbonizeTree();
+            }
+                
 
             //thisRenderer.material.SetColor("_Color", Color.Lerp(NormalTreeColor, BurnedTreeColor, this.BurnedPercentage ));
             timer = timer - waitTime;
         }
     }
 
-    private TreeNode FindNearstVector3(Vector3 position)
+    private void CarbonizeTree()
+    {
+        this.emittingParticles = false;
+
+        var ver = Vertices.Where(v => v.isBurning && v.burnedPercetage < 1).ToArray();
+        if (ver.Count() > 0)
+        {
+            var tempColors = thisTree.mesh.colors;
+
+            foreach (var v in ver)
+            {
+                var newColor = Color.black;                  
+                tempColors[v.index] = newColor;
+                v.burnedPercetage = 1;
+            }
+                        
+            thisTree.mesh.colors = tempColors;
+        }
+
+        this.BurnedPercentage = 1;
+
+        thisTree.transform.localScale = new Vector3(0.3f, 1, 0.3f);
+
+        Destroy(ThisFireEffect);
+        Destroy(ThisFireEmission);
+}
+
+    private TreeNode FindNearstVector3(Vector3 position, out bool foundResult)
     {
         var near = new TreeNode();
+        foundResult = false;
         float mindistance = 0;
 
         foreach (var v in Vertices.Where(v => !v.isBurning))
@@ -169,6 +213,7 @@ public class FireControl : MonoBehaviour
             {
                 distance = mindistance;
                 near = v;
+                foundResult = true;
             }
                 
         }
