@@ -67,7 +67,6 @@
     <Compile Include="Assets\Scripts\ParticleControl.cs" />
     <Compile Include="Assets\Scripts\WindControl.cs" />
     <None Include="Assets\Shaders\TesteShader.shader" />
-    <None Include="Assets\Shaders\TreeColoring.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/leona/Projects/Projeto-Integrador-VI-Simulador-de-fogo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
