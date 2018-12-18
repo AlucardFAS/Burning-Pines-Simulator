@@ -12,9 +12,9 @@ This project seeks to simulate the fire in a population of pines using the Unity
 
 ## Authors ©
 
-Fernando Silva
-Leonardo Gajardo
-Victor Trindade
+Fernando Silva<br>
+Leonardo Gajardo<br>
+Victor Trindade<br>
 
 ---
 
