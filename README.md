@@ -25,6 +25,12 @@ For changes:
 
 ---
 
+## Report
+
+- <a href="https://github.com/AlucardFAS/Burning-Pines-Simulator/blob/master/Relat%C3%B3rio/PI%20VI%20Entrega%204.pdf">Relatório PT-BR</a>
+
+---
+
 ## Bibliography
 
 * <a href="https://periodicos.ufsm.br/cienciaflorestal/article/view/27728/15735">COMPORTAMENTO DO FOGO EM DIFERENTES PERÍODOS E CONFIGURAÇÕES DE UMA PAISAGEM NO NORDESTE DE PORTUGAL</a><br>
